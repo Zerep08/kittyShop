@@ -1,6 +1,6 @@
 var plantillaMini = 
 "<div class=\"col-md-4 agile_ecommerce_tab_left\">" +
-    "<a href=\"#\" data-toggle=\"modal\" data-target=\"#myModal\">" +
+    "<a href=\"#\" data-toggle=\"modal\" data-target=\"#myModal{id}\">" +
         "<img src=\"{imagen}\" class=\"img-fluid\" alt=\"Responsive image\">" +
     "</a>" +
     "<h5><a href=\"single.html\">{raza}</a></h5>" +
@@ -41,9 +41,11 @@ var plantillaModal =
 
 
 function crearCatalogo() {    
-        $.get("catalogo/mostrar",
+        $.get("catalogo/mostrar.htm",
                 function (productos) {
-                    productos.forEach(function (producto) {
+                var arre= JSON.parse(productos);
+                    arre.forEach(function (producto) {
+                        console.log(producto);
                         var auxMoldeMini = plantillaMini;
                         var auxMoldeModal = plantillaModal;
                         var raza = producto.raza.nombre;
@@ -52,18 +54,19 @@ function crearCatalogo() {
                         var genero = producto.genero;
                         var edad = producto.edad;
                         var status = producto.status; 
+                        var id = producto.id;
+                        var imagen= producto.foto;
                         auxMoldeMini = auxMoldeMini.replace("{raza}", raza);
                         auxMoldeMini = auxMoldeMini.replace("{precio}", precio);
-                        auxMoldeMini = auxMoldeMini.replace("", );
+                        auxMoldeMini = auxMoldeMini.replace("{id}", id );
+                        auxMoldeMini = auxMoldeMini.replace("{imagen}", imagen);
                         auxMoldeModal = auxMoldeModal.replace("{raza}", raza);
                         auxMoldeModal = auxMoldeModal.replace("{precio}", precio);
                         auxMoldeModal = auxMoldeModal.replace("{descripcion}", descripcion);
                         auxMoldeModal = auxMoldeModal.replace("{genero}", genero);
                         auxMoldeModal = auxMoldeModal.replace("{edad}", edad);
-                        auxMoldeModal = auxMoldeModal.replace("", );
-                        auxmolde = auxmolde.replace("{genero}", producto.genero);
-                        auxmolde = auxmolde.replace("{raza}", producto.raza);
-                        auxmolde = auxmolde.replace("{id}", producto.id);
+                        auxMoldeModal = auxMoldeModal.replace("{id}",id );
+                        auxMoldeModal = auxMoldeModal.replace("{imagen}", imagen);
                         document.getElementById("aquiVanPeque").innerHTML = document.getElementById("aquiVanPeque").innerHTML + auxMoldeMini;
                         document.getElementById("aquiVanDetalles").innerHTML = document.getElementById("aquiVanDetalles").innerHTML + auxMoldeModal;
                     });
